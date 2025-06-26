@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f8f9fa; }
+        .login-form { width: 100%; max-width: 330px; padding: 15px; margin: auto; }
+    </style>
+</head>
+<body>
+    <div class="login-form text-center">
+        <form action="/auth/login" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Silakan Login</h1>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" class="form-control mb-2" placeholder="Username" required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

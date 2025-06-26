@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Verifikasi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <% if (isValid) { %>
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Surat Asli!</h4>
+                <p>Tanda tangan digital valid.</p>
+            </div>
+        <% } else { %>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Surat Palsu atau Telah Diubah!</h4>
+                <p>Tanda tangan digital tidak valid.</p>
+            </div>
+        <% } %>
+        <a href="/verify" class="btn btn-primary">Verifikasi Lagi</a>
+    </div>
+</body>
+</html>

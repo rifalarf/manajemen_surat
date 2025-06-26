@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Surat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <i class="fas fa-check-circle"></i> Verifikasi Surat
+                    </div>
+                    <div class="card-body">
+                        <form action="/verify/verify" method="post">
+                            <div class="form-group">
+                                <label for="nomorSurat">Nomor Surat:</label>
+                                <input type="text" class="form-control" id="nomorSurat" name="nomorSurat" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="namaKaryawan">Nama Karyawan:</label>
+                                <input type="text" class="form-control" id="namaKaryawan" name="namaKaryawan" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="namaPerusahaan">Nama Perusahaan:</label>
+                                <input type="text" class="form-control" id="namaPerusahaan" name="namaPerusahaan" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="alasanPeringatan">Alasan Peringatan:</label>
+                                <textarea class="form-control" id="alasanPeringatan" name="alasanPeringatan" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggalSurat">Tanggal Surat:</label>
+                                <input type="date" class="form-control" id="tanggalSurat" name="tanggalSurat" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="namaPenandatangan">Nama Penandatangan:</label>
+                                <input type="text" class="form-control" id="namaPenandatangan" name="namaPenandatangan" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signature">Signature (dari QR Code):</label>
+                                <textarea class="form-control" id="signature" name="signature" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Verifikasi</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
