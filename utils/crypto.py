@@ -2,6 +2,7 @@ from Crypto.Signature import pkcs1_15
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 import base64
+import binascii
 import qrcode
 
 def load_private_key():
@@ -22,10 +23,12 @@ def verify_signature(data_string, signature_b64):
     key = load_public_key()
     h = SHA256.new(data_string.encode())
     try:
-        signature = base64.b64decode(signature_b64)
+        # Menambahkan validate=True untuk memastikan tidak ada karakter ilegal
+        # dalam string base64. Ini akan melempar binascii.Error jika tidak valid.
+        signature = base64.b64decode(signature_b64, validate=True)
         pkcs1_15.new(key).verify(h, signature)
         return True
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, binascii.Error):
         return False
 
 def generate_qr_code(signature_b64, save_path):
