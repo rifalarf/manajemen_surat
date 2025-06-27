@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Dashboard Manajemen Surat</h1>
+    <p class="text-center text-muted">Selamat datang, {{ current_user.username }}. Silakan pilih menu di bawah ini.</p>
+    <div class="row justify-content-center mt-4">
+        <!-- Card untuk Daftar Surat -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Daftar Surat</h5>
+                    <p class="card-text">Lihat, cari, dan kelola semua surat yang telah dibuat.</p>
+                    <a href="{{ url_for('daftar_surat') }}" class="btn btn-primary">Buka Daftar Surat</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card untuk Buat Surat (Hanya Admin) -->
+        {% if current_user.role == 'admin' %}
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Buat Surat Baru</h5>
+                    <p class="card-text">Buat surat peringatan baru untuk karyawan.</p>
+                    <a href="{{ url_for('surat_baru') }}" class="btn btn-success">Buat Surat</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Card untuk Verifikasi -->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Verifikasi Surat</h5>
+                    <p class="card-text">Verifikasi keaslian surat menggunakan tanda tangan digital.</p>
+                    <a href="{{ url_for('verifikasi') }}" class="btn btn-info text-white">Verifikasi Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

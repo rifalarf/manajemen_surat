@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ title or 'Buat Surat' }}{% endblock %}
+{% block content %}
+<h3>{{ title or 'Buat Surat Peringatan' }}</h3>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="form-row">
+    <div class="form-group col-md-6">{{ form.nomor_surat.label }}{{ form.nomor_surat(class_='form-control') }}</div>
+    <div class="form-group col-md-6">{{ form.nama_karyawan.label }}{{ form.nama_karyawan(class_='form-control') }}</div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">{{ form.nama_perusahaan.label }}{{ form.nama_perusahaan(class_='form-control') }}</div>
+    <div class="form-group col-md-6">{{ form.tanggal_surat.label }}{{ form.tanggal_surat(class_='form-control') }}</div>
+  </div>
+  <div class="form-group">{{ form.alasan_peringatan.label }}{{ form.alasan_peringatan(class_='form-control') }}</div>
+  <div class="form-group">{{ form.nama_penandatangan.label }}{{ form.nama_penandatangan(class_='form-control') }}</div>
+  {{ form.submit(class_='btn btn-primary') }}
+</form>
+{% endblock %}

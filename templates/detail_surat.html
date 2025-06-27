@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Detail Surat{% endblock %}
+{% block content %}
+<h3>Detail Surat Peringatan</h3>
+<table class="table">
+  <tr><th>Nomor Surat</th><td>{{ surat.nomor_surat }}</td></tr>
+  <tr><th>Nama Karyawan</th><td>{{ surat.nama_karyawan }}</td></tr>
+  <tr><th>Nama Perusahaan</th><td>{{ surat.nama_perusahaan }}</td></tr>
+  <tr><th>Alasan Peringatan</th><td>{{ surat.alasan_peringatan }}</td></tr>
+  <tr><th>Tanggal Surat</th><td>{{ surat.tanggal_surat }}</td></tr>
+  <tr><th>Nama Penandatangan</th><td>{{ surat.nama_penandatangan }}</td></tr>
+  <tr><th>Signature (base64)</th><td><textarea class="form-control" rows="3" readonly>{{ surat.signature }}</textarea></td></tr>
+  <tr><th>QR Code</th><td><img src="/{{ surat.qr_code_path }}" width="80"></td></tr>
+</table>
+<a href="{{ url_for('preview_surat', surat_id=surat.id) }}" class="btn btn-primary">Preview/Cetak</a>
+{% endblock %}

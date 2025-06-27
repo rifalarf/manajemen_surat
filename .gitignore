@@ -1,6 +1,0 @@
-node_modules
-uploads/
-keys/
-*.db
-*.db-journal
-.vercel

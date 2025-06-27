@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Preview Surat{% endblock %}
+{% block content %}
+<style>
+    /* A4 Paper Styling */
+    .a4-surat {
+        background: white;
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        margin: 10px auto;
+        border: 1px #D3D3D3 solid;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+    }
+
+    .surat-body {
+        line-height: 1.6;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 12pt;
+        color: #000;
+    }
+    .surat-header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #000;
+        padding-bottom: 10px;
+    }
+    .surat-header h1 {
+        font-size: 16pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0;
+    }
+    .surat-header p {
+        font-size: 12pt;
+        margin: 5px 0 0 0;
+    }
+    .surat-content p {
+        margin-bottom: 20px;
+        text-align: justify;
+    }
+    .recipient-details {
+        margin-bottom: 30px;
+    }
+    .closing-section {
+        margin-top: 50px;
+    }
+    .signature-block {
+        width: 280px;
+        float: right;
+        text-align: center;
+    }
+    .signature-block .qr-code {
+        margin: 20px 0;
+    }
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    /* Print-specific styles */
+    @media print {
+        body {
+            background-color: #fff;
+        }
+        .d-print-none {
+            display: none !important;
+        }
+        .a4-surat {
+            margin: 0;
+            border: initial;
+            width: initial;
+            min-height: initial;
+            box-shadow: initial;
+            background: initial;
+            page-break-after: always;
+            padding: 0;
+        }
+    }
+</style>
+
+<div class="text-center my-3 d-print-none">
+    <button id="download-pdf-btn" class="btn btn-success">Download sebagai PDF</button>
+    <button onclick="window.print()" class="btn btn-secondary">Cetak</button>
+</div>
+
+<div class="a4-surat surat-body" id="surat-content">
+    <div class="surat-header">
+        <h1>SURAT PERINGATAN</h1>
+        <p>Nomor: {{ surat.nomor_surat }}</p>
+    </div>
+
+    <div class="recipient-details">
+        <p>
+            Kepada Yth.<br>
+            <strong>{{ surat.nama_karyawan }}</strong><br>
+            di<br>
+            {{ surat.nama_perusahaan }}
+        </p>
+    </div>
+
+    <div class="surat-content">
+        <p>Dengan hormat,</p>
+        <p>
+            Surat peringatan ini diterbitkan sebagai bentuk tindak lanjut atas evaluasi kinerja dan kedisiplinan Saudara. Adapun alasan dikeluarkannya surat peringatan ini adalah sebagai berikut:<br>
+            <strong>{{ surat.alasan_peringatan }}</strong>
+        </p>
+        <p>
+            Kami berharap Saudara dapat memahami dan segera melakukan perbaikan agar tidak mengulangi kesalahan yang sama di kemudian hari.
+        </p>
+    </div>
+
+    <div class="closing-section clearfix">
+        <div class="signature-block">
+            <p>Diterbitkan pada: {{ surat.tanggal_surat.strftime('%d %B %Y') }}<br>
+            Hormat kami,</p>
+            
+            <div class="qr-code">
+                <img src="/{{ surat.qr_code_path }}" width="150" alt="QR Code Tanda Tangan Digital">
+            </div>
+            
+            <strong><u>{{ surat.nama_penandatangan }}</u></strong>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('download-pdf-btn').addEventListener('click', function () {
+        const element = document.getElementById('surat-content');
+        const opt = {
+            margin:       0,
+            filename:     'surat_{{ surat.nomor_surat | replace("/", "_") }}.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().from(element).set(opt).save();
+    });
+});
+</script>
+{% endblock %}
