@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <title>Surat Peringatan</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; }
+        body { font-family: Arial, sans-serif; margin: 0; line-height: 1.6; }
         .page { width: 210mm; min-height: 297mm; padding: 20mm; margin: 10mm auto; border: 1px #D3D3D3 solid; border-radius: 5px; background: white; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
-        .header { text-align: center; margin-bottom: 24px; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
         .judul { font-size: 22px; font-weight: bold; }
         .nomor { margin-top: 4px; font-size: 15px; }
-        .section { margin-bottom: 18px; }
-        .ttd { margin-top: 40px; text-align: right; }
-        .qr { margin-top: 8px; }
+        .section { margin-bottom: 20px; }
+        .ttd { margin-top: 50px; text-align: right; }
+        .qr { margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="page">
-        <div class="header"></div>
+        <div class="header">
             <div class="judul">SURAT PERINGATAN</div>
             <div class="nomor">Nomor: <b>$nomor_surat</b></div>
         </div>
@@ -39,7 +39,7 @@
             Hormat kami,<br>
             <b>$nama_penandatangan</b><br>
             <div class="qr">
-                <img src="$qr_code_url" alt="QR Code" width="90"><br>
+                <img src="$qr_code_url" alt="QR Code" width="120"><br>
                 (Tanda Tangan Digital / Signature)
             </div>
         </div>

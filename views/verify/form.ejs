@@ -20,6 +20,25 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/verify" style="margin-left: 1rem;">Manajemen Surat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Buat Surat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/manage">Manajemen Surat</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/verify">Verify <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -28,6 +47,17 @@
                         <i class="fas fa-check-circle"></i> Verifikasi Surat
                     </div>
                     <div class="card-body">
+                        <div class="form-group">
+                            <label for="pdfUpload">Upload Surat (PDF) untuk Scan QR Code:</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="pdfUpload" accept="application/pdf">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="uploadBtn">Scan</button>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">Sistem akan membaca QR Code dari PDF dan mengisi kolom Signature secara otomatis.</small>
+                        </div>
+                        <hr>
                         <form action="/verify/verify" method="post">
                             <div class="form-group">
                                 <label for="nomorSurat">Nomor Surat:</label>
@@ -67,5 +97,46 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('uploadBtn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('pdfUpload');
+            const signatureTextarea = document.getElementById('signature');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (fileInput.files.length === 0) {
+                alert('Silakan pilih file PDF terlebih dahulu.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('suratPdf', fileInput.files[0]);
+
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning...';
+
+            try {
+                const response = await fetch('/verify/scan-qr', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    signatureTextarea.value = result.signature;
+                    alert('Signature berhasil diekstrak dari QR Code!');
+                } else {
+                    throw new Error(result.message || 'Gagal memproses PDF.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan: ' + error.message);
+                signatureTextarea.value = '';
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = 'Scan';
+            }
+        });
+    </script>
 </body>
 </html>

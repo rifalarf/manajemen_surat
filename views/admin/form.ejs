@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat Surat Peringatan</title>
+    <title><%= surat.id ? 'Edit' : 'Buat' %> Surat Peringatan</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -20,40 +20,64 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/admin" style="margin-left: 1rem;">Manajemen Surat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item <%= surat.id ? '' : 'active' %>">
+                    <a class="nav-link" href="/admin">Buat Surat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/manage">Manajemen Surat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/verify">Verify</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" style="margin-right: 1rem;">
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <i class="fas fa-envelope"></i> Buat Surat Peringatan
+                        <i class="fas fa-envelope"></i> <%= surat.id ? 'Edit' : 'Buat' %> Surat Peringatan
                     </div>
                     <div class="card-body">
-                        <form action="/admin/generate" method="post">
+                        <form action="<%= surat.id ? '/admin/update/' + surat.id : '/admin/generate' %>" method="post">
                             <div class="form-group">
                                 <label for="nomorSurat">Nomor Surat:</label>
-                                <input type="text" class="form-control" id="nomorSurat" name="nomorSurat" required>
+                                <input type="text" class="form-control" id="nomorSurat" name="nomorSurat" value="<%= surat.nomor_surat || '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="namaKaryawan">Nama Karyawan:</label>
-                                <input type="text" class="form-control" id="namaKaryawan" name="namaKaryawan" required>
+                                <input type="text" class="form-control" id="namaKaryawan" name="namaKaryawan" value="<%= surat.nama_karyawan || '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="namaPerusahaan">Nama Perusahaan:</label>
-                                <input type="text" class="form-control" id="namaPerusahaan" name="namaPerusahaan" required>
+                                <input type="text" class="form-control" id="namaPerusahaan" name="namaPerusahaan" value="<%= surat.nama_perusahaan || '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="alasanPeringatan">Alasan Peringatan:</label>
-                                <textarea class="form-control" id="alasanPeringatan" name="alasanPeringatan" rows="3" required></textarea>
+                                <textarea class="form-control" id="alasanPeringatan" name="alasanPeringatan" rows="3" required><%= surat.alasan_peringatan || '' %></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="tanggalSurat">Tanggal Surat:</label>
-                                <input type="date" class="form-control" id="tanggalSurat" name="tanggalSurat" required>
+                                <input type="date" class="form-control" id="tanggalSurat" name="tanggalSurat" value="<%= surat.tanggal_surat || '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="namaPenandatangan">Nama Penandatangan:</label>
-                                <input type="text" class="form-control" id="namaPenandatangan" name="namaPenandatangan" required>
+                                <input type="text" class="form-control" id="namaPenandatangan" name="namaPenandatangan" value="<%= surat.nama_penandatangan || '' %>" required>
                             </div>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Generate Surat</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> <%= surat.id ? 'Update' : 'Generate' %> Surat</button>
                         </form>
                     </div>
                 </div>
