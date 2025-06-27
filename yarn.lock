@@ -135,14 +135,6 @@
     unbzip2-stream "^1.4.3"
     yargs "^17.7.2"
 
-"@sparticuz/chromium@^137.0.1":
-  version "137.0.1"
-  resolved "https://registry.npmjs.org/@sparticuz/chromium/-/chromium-137.0.1.tgz"
-  integrity sha512-9ixW23xjzIgSwBPLhWFOnrJNsnEw4dQWZqGzBCFGwGVuBPkNiJHO5VAGKezXj81J0wMYwP04tLlJFjsN5z4ROw==
-  dependencies:
-    follow-redirects "^1.15.9"
-    tar-fs "^3.0.9"
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
@@ -927,11 +919,6 @@ find-up@^4.1.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
-
-follow-redirects@^1.15.9:
-  version "1.15.9"
-  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz"
-  integrity sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -2152,17 +2139,6 @@ tar-fs@^3.0.6:
     bare-path "^3.0.0"
 
 tar-fs@^3.0.8:
-  version "3.0.10"
-  resolved "https://registry.npmjs.org/tar-fs/-/tar-fs-3.0.10.tgz"
-  integrity sha512-C1SwlQGNLe/jPNqapK8epDsXME7CAJR5RL3GcE6KWx1d9OUByzoHVcbu1VPI8tevg9H8Alae0AApHHFGzrD5zA==
-  dependencies:
-    pump "^3.0.0"
-    tar-stream "^3.1.5"
-  optionalDependencies:
-    bare-fs "^4.0.1"
-    bare-path "^3.0.0"
-
-tar-fs@^3.0.9:
   version "3.0.10"
   resolved "https://registry.npmjs.org/tar-fs/-/tar-fs-3.0.10.tgz"
   integrity sha512-C1SwlQGNLe/jPNqapK8epDsXME7CAJR5RL3GcE6KWx1d9OUByzoHVcbu1VPI8tevg9H8Alae0AApHHFGzrD5zA==
