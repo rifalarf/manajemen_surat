@@ -10,9 +10,12 @@ from forms import LoginForm, SuratForm, SearchForm
 from utils.crypto import create_signature, verify_signature, generate_qr_code
 
 app = Flask(__name__)
-app.secret_key = 'SECRETKEY'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///surat.db'
+# Konfigurasi untuk produksi dari environment variables
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'kunci-rahasia-lokal-yang-aman')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///surat.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/qr'
+
 db.init_app(app)
 
 login_manager = LoginManager(app)
@@ -158,35 +161,53 @@ def preview_surat(surat_id):
     surat = SuratPeringatan.query.get_or_404(surat_id)
     return render_template('preview_surat.html', surat=surat)
 
-@app.route('/static/qr/<filename>')
-def qr_image(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
 # --- VERIFIKASI SURAT ---
-@app.route('/surat/verifikasi', methods=['GET', 'POST'])
+@app.route('/verifikasi', methods=['GET', 'POST'])
 def verifikasi():
     status = None
     if request.method == 'POST':
-        nomor_surat = request.form['nomor_surat']
-        nama_karyawan = request.form['nama_karyawan']
-        nama_perusahaan = request.form['nama_perusahaan']
-        alasan_peringatan = request.form['alasan_peringatan']
-        tanggal_surat = request.form['tanggal_surat']
-        signature = request.form['signature']
+        # Ambil data dari form
+        nomor_surat = request.form.get('nomor_surat')
+        nama_karyawan = request.form.get('nama_karyawan')
+        nama_perusahaan = request.form.get('nama_perusahaan')
+        alasan_peringatan = request.form.get('alasan_peringatan')
+        tanggal_surat = request.form.get('tanggal_surat')
+        signature = request.form.get('signature')
+        
+        # Gabungkan data untuk verifikasi
         data_string = f"{nomor_surat}|{nama_karyawan}|{nama_perusahaan}|{alasan_peringatan}|{tanggal_surat}"
+        
+        # Lakukan verifikasi
         status = verify_signature(data_string, signature)
+        
     return render_template('verifikasi.html', status=status)
 
+
+@app.route('/static/qr/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.cli.command("init-db")
+def init_db_command():
+    """Membuat tabel database dan user default."""
+    db.create_all()
+    # Seed admin jika belum ada
+    if not User.query.filter_by(username='admin').first():
+        user = User(username='admin', 
+            password_hash=generate_password_hash('admin123'),
+            role='admin')
+        db.session.add(user)
+        db.session.commit()
+        print("Database diinisialisasi dan user admin dibuat.")
+    else:
+        print("User admin sudah ada.")
+
 if __name__ == '__main__':
-    if not os.path.exists('static/qr'):
-        os.makedirs('static/qr')
+    # Blok ini hanya untuk development lokal, tidak akan dijalankan oleh Gunicorn
     with app.app_context():
         db.create_all()
-        # Seed admin jika belum ada
         if not User.query.filter_by(username='admin').first():
-            user = User(username='admin', 
-                password_hash=generate_password_hash('admin123'),
-                role='admin')
+            user = User(username='admin', password_hash=generate_password_hash('admin123'), role='admin')
             db.session.add(user)
             db.session.commit()
     app.run(debug=True, port=8080)
